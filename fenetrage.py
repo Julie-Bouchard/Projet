@@ -14,7 +14,7 @@ class Fenetrage(Transformation):
     def fenetrage(self):
         fenetre=[]
         for j in range(len(Donnees[1])):
-            if Donnees[1][j]=="jour":
+            if Donnees[0][j]=="jour":
                 for i in range(len(Donnees)):
                     if Donnees[i][j]==debut_periode:
                         fenetre.append(Donnees[i])
