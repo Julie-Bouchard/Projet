@@ -18,4 +18,9 @@ class Fenetrage(Transformation):
                 for i in len(Donnees):
                     if Donnees[i][j]==debut_periode:
                         fenetre.append(Donnees[i])
+                        k=i
+                while Donnees[k][j]!=fin_periode:
+                    fenetre.append(Donnees[k])
+                    k+=1
+                fenetre.append(Donnees[k+1][j])
         return(fenetre)
