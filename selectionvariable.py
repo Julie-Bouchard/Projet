@@ -12,8 +12,8 @@ class SelectionVariable(Transformation):
         self.nom_variable=nom_variable
     def selectionvariable(self):
         variable=[]
-        for j in len(Donnees[1]):
-            if Donnees[1][j]==nom_variable:
-                for i in len(Donnees):
+        for j in range(len(Donnees[0])):
+            if Donnees[0][j]==nom_variable:
+                for i in range(len(Donnees)):
                     variable.append([Donnees[i][j]])
         return variable
