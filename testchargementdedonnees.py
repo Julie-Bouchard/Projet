@@ -9,22 +9,12 @@ import csv
 import json
 
 def chargementcsv(emplacement_fichier):
-        #Exemple d'emplacement_fichier : 'C:/Users/Julie/Documents/1A/Projet de traitement de données/Données Hospitalisations Covid-19 en France-20210503/Données/covid-hospit-incid-reg-2021-03-03-17h20.csv'
-        Tableau = []
-        #Ouverture et lecture du fichier csv
-        f = open(emplacement_fichier)
-        csv_f = csv.reader(f)
-        for row in csv_f:
-            Tableau.append(row)
-        f.close
-        #Mise en forme du tableau : liste de listes de chaines de caractères
-        for i in range(len(Tableau)):
-            Tableau[i]=' '.join(Tableau[i])
-        Tableau_res=[]
-        for i in range(len(Tableau)):
-            t=Tableau[i].split(";")
-            Tableau_res.append(t)
-        return (Tableau_res)
+    data = []
+    with open(emplacement_fichier, encoding='ISO-8859-1') as csvfile :
+        covidreader = csv.reader(csvfile, delimiter=';')
+        for row in covidreader :
+            data.append(row)
+    return data
         
 Tableau1=chargementcsv("P:/ProjetTraitement/Données Hospitalisations Covid-19 en France-20210506/Données/donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv")
 print(Tableau1)
