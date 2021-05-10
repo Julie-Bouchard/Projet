@@ -1,0 +1,52 @@
+class Jointure :
+    def jointure(self, table2, variable_cle):
+        ##Etape 0 : On enregistre quelques variable qui seront utiles
+        p=len(self[0])
+        q=len(table2[0])
+        n=len(self)
+        
+        #Etape 1: On crée une grande table qui sera notre table jointe finale
+        #Au debut cette table doit être composé de n ligne car on fait une jointure à gauche
+        #Et pour l'instant on veut des "Null" partout sur le tableau.
+        Table_jointe=[]
+        for i in range (0,n):
+            Table_jointe+=[["NULL" for _ in range (0, p+q-1)]]
+            
+        #Pour l'instant notre tableau joint est un table de dimension n*(p+q-1) avec que des null partout
+        #On va déjà mettre le nom des variables sur la première ligne
+        #La seule variable qui n'est pas potentiellement doublé est la variable clé primaire qui permet de faire la jointure
+        #C'est à dire que les autres variables peuvent être doublé si elles apparaissent dans les deux tableaux
+        Table_jointe[0][0]="{}".format(variable_cle)
+        L=["{}".format(variable) for variable in self[0]]
+        L+=["{}".format(variable) for variable in table2[0]]
+        for k in range (1,p+q-1):
+            if L[k]!=variable_cle:
+                Table_jointe[0][k]="{}".format(L[k])
+                
+        #Donc pour le moment on a toujours le même tableau avec des "null" partout sauf sur la première ligne où on a les noms de variable
+        #On va copier la table de gauche entièrement.
+        for i in range (1,n):
+            for j in range (0,p):
+                Table_jointe[i][j]=self[i][j]
+                
+        #Etape 2: On cherche dans la table 2 les lignes qui peuvent être jointe à la table 1
+        #C'est à dire les lignes de la table 2 ou une composante de la variable_cle apparait aussi dans la table de gauche
+        #M et N sont deux listes qui vont enregistrer les indices de ces lignes qui peuvent être jointes
+      
+        M=[]
+        N=[]
+        
+        #On extrait les colonnes de la variable cle afin de mieux pouvoir comparer
+        U=self.choix_colonne(variable_cle)
+        V=table2.choix_colonne(variable_cle)
+        for individu in V:
+            if individu in U:
+                M.append(U.index(individu))
+                N.append(V.index(individu))
+                
+        #On sait à quel endroit se trouvent les lignes qui peuvent être jointe, il suffit maintenant
+        #de recopier dans la grande table finale, les lignes qui peuvent être jointe
+        for k in range (0,len(M)):
+            for nom_variable in L[p:]:
+                Table_jointe.choix_colonne(nom_variable)[M[k]] = table2.choix_colonne(nom_variable)[N[k]]
+ 
