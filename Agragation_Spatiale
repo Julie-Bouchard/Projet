@@ -1,0 +1,23 @@
+class Agregation_Spatiale:
+    def reg_dep(self, echelle1):
+        Tableau2=chargementjson("C:/Users/maroi/Projet_td/VacancesScolaires.json")
+        res={}
+        for i in Tableau2["Academie"]:
+            res[i["Code_Dpt"]] = i["Region"]
+        departement=selectionvariable(self,echelle1)
+        region=[]
+        i=0
+        for depp in departement:
+            if depp[0]!='dep':
+                i+=1
+                region.append(res['{}'.format(depp[0])])
+        print(i)
+        print(len(region))
+        print(len(self))
+        new=[]
+        new+=[self[i] for i in range (0, len(self))]
+        j=new[0].index(echelle1)
+        new[0][j]="region"
+        for i in range(1,len(self)):
+            new[i][j]=region[i-1]
+        return new
