@@ -15,12 +15,12 @@ class ChargementDeDonnees(Transformation):
         #Exemple d'emplacement_fichier : "P:/ProjetTraitement/Données Hospitalisations Covid-19 en France-20210506/Données/donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv"
     def chargementcsv(self):
         data = []
-        with open(self, encoding='ISO-8859-1') as csvfile :
+        with open(self.emplacement_fichier, encoding='ISO-8859-1') as csvfile :
             covidreader = csv.reader(csvfile, delimiter=';')
             for row in covidreader :
                 data.append(row)
         return data
     def chargementjson(self):
-        with open(self) as json_file :
+        with open(self.emplacement_fichier) as json_file :
             data = json.load(json_file)
         return data
