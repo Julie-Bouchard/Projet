@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun May  2 14:20:48 2021
-
-@author: maroi
-"""
-
 import Statistique_descriptive as sd
 
 class Normalisation:
@@ -12,12 +5,14 @@ class Normalisation:
         self.normalisee="False"
         
     def normaliser(self):
-        n,p = self.shape
+        n=len(self)
+        p='''nombre de variables'''
         for j in range (0,p):
-            U=self[:,[j]] # On selectionne la j ème colonne de notre base de donnée
-            ecart_type=sd.ecart_type(U)
+            U=[individu[j] for individu in self] # On selectionne la j ème colonne de notre base de donnée
+            ecart_type=sd.U.ecart_type
             for i in range (0,n):
-                self[i,j]=self[i,j]/ecart_type
+                self[i][j]=self[i][j]/ecart_type
         self.normalisee="True"
+        
         
         
