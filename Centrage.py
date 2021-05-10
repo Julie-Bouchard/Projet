@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon May  3 02:06:01 2021
-
-@author: maroi
-"""
 import Statistique_descriptive as sd
 
 class Centrage:
@@ -11,10 +5,11 @@ class Centrage:
         self.centree="False"
         
     def centrer(self):
-        n,p = self.shape
-        for j in range (0,p):
-            U=self[:,[j]] # On selectionne la j ème colonne de notre base de donnée
-            moyenne=sd.moyenne(U)
+        n=len(self)
+        p='''nombre de variable'''
+        for j in range (0,n):
+            U=[individu[j] for individu in self] # On selectionne la j ème colonne de notre base de donnée
+            moyenne=sd.U.moyenne
             for i in range (0,n):
-                self[i,j]=self[i,j]-moyenne
+                self[i][j]=self[i][j]-moyenne
         self.centree="True"
