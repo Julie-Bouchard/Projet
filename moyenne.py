@@ -9,10 +9,12 @@ from estimateur import Estimateur
 
 class Moyenne(Estimateur):
     #self represente un vecteur
-    def __init__(self):
-        self.moyenne=0
+    def __init__(self, variable):
+        self.variable=variable
     def estime(self):    
-        n= len(self)
-        for i in range (0,n):
-            self.moyenne+=self[i,0]
-        self.moyenne=self.moyenne / n
+        n= len(self.variable.lignes)+1
+        moyenne=0
+        for i in range (1,n):
+            moyenne+=float(self.variable.lignes[i-1][0])
+        moyenne= moyenne / n
+        return moyenne
