@@ -15,10 +15,10 @@ class SelectionVariablecsv(Transformation):
         #Exemples nom_variable : "dep","Code_Dpt"
     def transforme(self):
         #Renvoie une liste de listes
-        variable=[]
+        variable=[[self.nom_variable]]
         for j in range(len(self.table.noms_colonnes)):
             if self.table.noms_colonnes[j]==self.nom_variable:
-                for i in range(len(self.table.lignes)+1):
+                for i in range(1,len(self.table.lignes)+1):
                     variable.append([self.table.lignes[i-1][j]])
         data=Donnees(variable[0],variable[1:])
         return data
