@@ -8,4 +8,7 @@ Created on Fri Apr 23 10:06:20 2021
 from abc import ABC, abstractmethod
 
 class Operation(ABC):
-    pass
+    @abstractmethod
+    def process(self):
+        pass
+    
