@@ -9,7 +9,8 @@ from abc import ABC, abstractmethod
 from operation import Operation
 
 class Estimateur(Operation):
-   
+    def process(self):
+        return self.estime(self)
     @abstractmethod
     def estime(self):
         pass
