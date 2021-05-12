@@ -9,7 +9,9 @@ from abc import ABC, abstractmethod
 from operation import Operation
 
 class Transformation(Operation):
-   
+    def process(self):
+        return self.transforme(self)
     @abstractmethod
     def transforme(self):
         pass
+        
