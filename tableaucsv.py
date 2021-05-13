@@ -15,7 +15,7 @@ class Tableau(Affichage):
 
     def affiche(self):
         with open(self.emplacement_fichier,'w',newline='') as fichiercsv :
-            ecrire = csv.writer(fichiercsv)
-            for ligne in self.table :
+            ecrire = csv.writer(fichiercsv, delimiter=';')
+            ecrire.writerow(self.table.noms_colonnes)
+            for ligne in self.table.lignes :
                 ecrire.writerow(ligne)
-        
