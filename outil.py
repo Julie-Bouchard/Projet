@@ -1,6 +1,7 @@
 from chargementdedonneesjson import ChargementDeDonneesjson
 from operation import Operation
 from datetime import datetime
+from donnees import Donnees
 import random
 
 
@@ -60,12 +61,12 @@ class Outil(Operation):
     def changement_ordre(table,colonnes):
         Table_bis=Donnees(['Classes'],[[0] for k in range(len(table.lignes))])
         for nom in colonnes :
-            extrait=Kmeans.extrait_colonne(table,nom)
+            extrait=Outil.extrait_colonne(table,nom)
             Table_bis.ajouter_colonne(extrait[0],extrait[1])
            
         for nom in table.noms_colonnes :
             if nom not in colonnes :
-                extrait2=Kmeans.extrait_colonne(table,nom)
+                extrait2=Outil.extrait_colonne(table,nom)
                 Table_bis.ajouter_colonne(extrait2[0],extrait2[1])
         return(Table_bis)
     
@@ -74,4 +75,5 @@ class Outil(Operation):
         for i in range(len(table.lignes)):
             table.lignes[i][j]=float(table.lignes[i][j])
         return table
+    
     
