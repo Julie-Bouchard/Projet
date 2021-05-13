@@ -21,12 +21,12 @@ class Graphique(Affichage):
     def affiche(self):
         x = []
         y = []
-        indice_x = self.table.noms_colonnes.index(self.abscisse)
-        indice_y = self.table.noms_colonnes.index(self.ordonnee)
+        indice_colonne_x = self.table.noms_colonnes.index(self.abscisse)
+        indice_colonne_y = self.table.noms_colonnes.index(self.ordonnee)
         n = len(self.table.lignes) 
         for i in range(n) :
-            x.append(self.table.lignes[i][indice_x])
-            y.append(self.table.lignes[i][indice_y])
+            x.append(self.table.lignes[i][indice_colonne_x])
+            y.append(self.table.lignes[i][indice_colonne_y])
         plt.ylabel(self.ordonnee)
         plt.xlabel(self.abscisse)
         plt.title(self.titre)
