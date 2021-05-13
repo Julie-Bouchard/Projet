@@ -6,11 +6,11 @@ Created on Thu May  6 07:40:06 2021
 """
 
 from abc import ABC, abstractmethod
-from estimateur import Estimateur
-from transformation import Transformation
+from donnees import Donnees
 
-class Affichage(Estimateur, Transformation):
+class Affichage(Donnees, ABC):
    
     @abstractmethod
-    def affiche(self):
+    def affiche(self, table):
         pass
+
