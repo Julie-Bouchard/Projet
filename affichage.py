@@ -12,5 +12,5 @@ from transformation import Transformation
 class Affichage(Operation, Transformation):
    
     @abstractmethod
-    def affiche(self):
+    def affiche(self, table):
         pass
