@@ -55,3 +55,18 @@ class Moyenne(Estimateur):
         moyenne= moyenne / (n-1)
         res=Donnees(['Moyenne'],[[moyenne]])
         return res
+
+    
+    
+    
+table=Donnees(['Prénom', 'Age'],[['Lisa', '10'], ['François', '20'], ['Pierre', '30']])
+variable=SelectionVariablecsv('Age').transforme(table)
+Moyenne=Moyenne().estime(variable)
+Moyenne.lignes[0][0]
+
+class moyenneTest(unittest.TestCase):
+    def test_calcul(self):
+        self.assertEqual(Moyenne.lignes[0][0],20)
+        
+unittest.main()
+    
