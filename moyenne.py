@@ -1,6 +1,7 @@
 from operation import Operation
 from estimateur import Estimateur
 from donnees import Donnees
+import unittest
 
 class Moyenne(Estimateur):
     
