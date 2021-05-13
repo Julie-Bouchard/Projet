@@ -1,4 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed May 12 13:52:00 2021
+
+@author: id1780
+"""
+
 from affichage import Affichage
+from transformation import Transformation
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -11,11 +19,16 @@ class Graphique(Affichage):
         self.table = table
     
     def affiche(self):
-        n = len(table)
-        x = self.table[0]
-        y = [self.table[1]]
-        plt.ylabel(ordonnee)
-        plt.xlabel(abscisse)
-        plt.title(titre)
+        x = []
+        y = []
+        indice_x = self.table.noms_colonnes.index(self.abscisse)
+        indice_y = self.table.noms_colonnes.index(self.ordonnee)
+        n = len(self.table.lignes) 
+        for i in range(n) :
+            x.append(self.table.lignes[i][indice_x])
+            y.append(self.table.lignes[i][indice_y])
+        plt.ylabel(self.ordonnee)
+        plt.xlabel(self.abscisse)
+        plt.title(self.titre)
         plt.plot(x,y,'b')
         plt.show()
