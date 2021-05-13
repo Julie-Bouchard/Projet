@@ -9,11 +9,12 @@ import csv
 
 class Tableau(Affichage):
     
-    def __init__(self, table):
+    def __init__(self, table, emplacement_fichier):
         self.table = table
+        self.emplacement_fichier = emplacement_fichier
 
-    def affiche(self, emplacement_fichier):
-        with open(emplacement_fichier,'w',newline='') as fichiercsv :
+    def affiche(self):
+        with open(self.emplacement_fichier,'w',newline='') as fichiercsv :
             ecrire = csv.writer(fichiercsv)
             for ligne in self.table :
                 ecrire.writerow(ligne)
