@@ -6,10 +6,10 @@ Created on Thu May  6 07:40:06 2021
 """
 
 from abc import ABC, abstractmethod
-from operation import Operation
+from estimateur import Estimateur
 from transformation import Transformation
 
-class Affichage(Operation, Transformation):
+class Affichage(Estimateur, Transformation):
    
     @abstractmethod
     def affiche(self):
