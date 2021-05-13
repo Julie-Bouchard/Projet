@@ -1,4 +1,11 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Created on Wed May 12 13:53:01 2021
+
+@author: id1780
+"""
+
+pip install shapefile
 
 import numpy as np
 import shapefile as shp
@@ -11,16 +18,13 @@ from jellyfish import levenshtein_distance
 
 class CartoPlot:
     '''Class providing an easy way to plot geographic data.
-
     Based on département and région shapes of France.
-
     Parameters
     ----------
     departement_shp_path : str
         path to the shapefile (.shp) with the départements
     regions_shp_path : str
         path to the shapefile (.shp) with régions
-
     Attributes
     ----------
     __sf_dep : shapefile.Reader
@@ -29,17 +33,14 @@ class CartoPlot:
         shapefile data for régions
     __cmap : matplotlib.colors.Colormap
         colormap to use to fill the shapes with
-
     Examples
     --------
     >>> cp = CartoPlot()
-
     >>> d = {}
     >>> d['Betagni'] = 1
     >>> fig = cp.plot_reg_map(data=d)
     >>> fig.show()
     >>> fig.savefig('regions.test.jpg')
-
     >>> d = {}
     >>> for i in range(1, 96):
     >>>     d[str(i)] = i
@@ -58,7 +59,6 @@ class CartoPlot:
                  regions_shp_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'regions-20180101.shp'),
                  colormap='viridis'):
         '''Create the object and gather the data on département and régions.
-
         Parameters
         ----------
         departement_shp_path : str
@@ -78,9 +78,7 @@ class CartoPlot:
 
     def plot_reg_map(self, data={}, show_name=True, d_lim=(None, None), x_lim=None, y_lim=None, figsize=(11, 9)):
         '''Plot France's map with Régions and optional data.
-
         Possibility to set the axes limits to restrict to a subarea.
-
         Parameters
         ----------
         data : dictionnary = {}
@@ -95,12 +93,10 @@ class CartoPlot:
             spatial limits (latitude min, latitude max)
         figsize : tuple = (11, 9)
             size of the figure
-
         Returns
         -------
         matplotlib.figure.Figure
             figure objet from matplotlib with the map of the régions and the data
-
         Examples
         --------
         >>> cp = CartoPlot()
@@ -127,9 +123,7 @@ class CartoPlot:
 
     def plot_dep_map(self, data={}, show_name=False, d_lim=(None, None), x_lim=None, y_lim=None, figsize=(11, 9)):
         '''Plot France's map with Départments and optional data.
-
         Possibility to set the axes limits to restrict to a subarea.
-
         Parameters
         ----------
         data : dictionnary
@@ -145,12 +139,10 @@ class CartoPlot:
             spatial limits (latitude min, latitude max)
         figsize : tuple = (11, 9)
             size of the figure
-
         Returns
         -------
         matplotlib.figure.Figure
             figure objet from matplotlib with the map of the départements and the data
-
         Examples
         --------
         >>> cp = CartoPlot()
@@ -182,14 +174,12 @@ class CartoPlot:
     @staticmethod
     def __normalizer(data, d_lim=(None, None)):
         '''Create an object to normalize data
-
         Parameters
         ----------
         data : dict
             the dictionnary with the data to convert to a list. Keys correspond to shapes
         d_lim : tuple = (None, None)
             data limits for the colormap. If None, max and/or min are computed and used
-
         Returns
         -------
         matplotlib.colors.Normalize
@@ -208,10 +198,8 @@ class CartoPlot:
     @staticmethod
     def __data_list(sf, record_idx, data, levenshtein_threshold=3, nrm=clrs.Normalize(0, 1, True)):
         '''Convert a data dictionnary to a data list
-
         This static method can be modified and adapted to the choice of data type for the
         variable data.
-
         Parameters
         ----------
         sf : shapefile.Reader
@@ -224,7 +212,6 @@ class CartoPlot:
             threshold to consider the string approximately equal in the Levenshtein distance
         nrm : matplotlib.colors.Normalize = matplotlib.colors.Normalize(0, 1, True)
             the matplotlib object to normalize data
-
         Returns
         -------
         list
@@ -254,9 +241,7 @@ class CartoPlot:
     @staticmethod
     def __plot_map_base(sf, data=[], nrm=clrs.Normalize(0, 1, True), cmap=plt.get_cmap('viridis'), x_lim=None, y_lim=None, figsize=(11, 9), label_record_idx=0):
         '''Base function to plot shapes to form a map, and data to shade those shapes.
-
         The variable data could be changed to fit whatever type is needed in the project.
-
         Parameters
         ----------
         data : list = []
@@ -274,7 +259,6 @@ class CartoPlot:
             size of the figure
         label_record_idx : int = 0
             the index of the label to plot in the shapes' records
-
         Returns
         -------
         matplotlib.figure.Figure
