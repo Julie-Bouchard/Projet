@@ -1,0 +1,15 @@
+from donnees import Donnees
+from operation import Operation
+
+class Pipeline:
+    def __init__(self):
+        self.Liste_Operation=[]
+        
+    def ajoute_etape(self,operation):
+        self.Liste_Operation.append(operation)
+        
+    def run(self,table):
+        for operation in self.Liste_Operation:
+            table=operation.process(table)
+        return table
+        
