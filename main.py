@@ -2,79 +2,12 @@ from donnees import Donnees
 from transformation import Transformation
 from estimateur import Estimateur
 from chargementdedonneescsv import ChargementDeDonneescsv
+from outil import Outil
+from tableaucsv import Tableau
+from cartoplot import Cartoplot
+from agregationsomme import AgregationSomme
 
-a=ChargementDeDonneescsv("C:/Users/maroi/Projet_td/Projet/donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv")
-table=ChargementDeDonneescsv.transforme(a)
-table.lignes=table.lignes[:300]
-
-
-a2=ChargementDeDonneescsv("C:/Users/maroi/Projet_td/Projet/donnees-hospitalieres-covid19-2021-03-03-17h03.csv")
-tablea=ChargementDeDonneescsv.transforme(a2)
-tablea.lignes=tablea.lignes[:10]
-
-table2=Fenetrage("2020-03-19","2020-03-20").transforme(table)
-print(table2.lignes)
-print(table2.noms_colonnes)
-
-table3=SelectionVariablecsv('dep').transforme(table)
-print(table3.lignes)
-
-table4=AgregationSpatiale_reg_dep('dep',[1],'C:/Users/maroi/Projet_td/Projet/VacancesScolaires.json').transforme(table)
-print(table4.lignes)
-
-table5=Jointure(table,'dep').transforme(tablea)
-print(table5.noms_colonnes)
-print(table5.lignes)
-
-table6=SelectionVariablecsv('incid_hosp').transforme(table)
-print(table6.lignes)
-
-moyenne=Moyenne().estime(table6)
-print(moyenne.lignes)
-
-variance=Variance().estime(table6)
-print(variance.lignes)
-
-ecart=EcartType().estime(table6)
-print(ecart.lignes)
-
-somme=Somme().estime(table6)
-print(somme.lignes)
-
-mg=MoyenneGlissante('incid_hosp',3).transforme(table)
-print(mg.lignes)
-
-
-a=ChargementDeDonneescsv("C:/Users/maroi/Projet_td/Projet/donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv")
-table=ChargementDeDonneescsv.transforme(a)
-table.lignes=table.lignes[:300]
-k=Kmeans(3, ['incid_hosp', 'incid_rea', 'incid_dc', 'incid_rad']).estime(table)
-print(k.lignes)
-
-
-a=ChargementDeDonneescsv("C:/Users/maroi/Projet_td/Projet/donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv")
-table=ChargementDeDonneescsv.transforme(a)
-table.lignes=table.lignes[:5000]
-classi=Kmeans(4, ['incid_hosp', 'incid_rea', 'incid_dc', 'incid_rad']).estime(table)
-print(classi.lignes)
-
-mgg=MoyenneGlissante('incid_hosp',3).process(table)
-print(mgg.lignes)
-
-agregat=AgregationSomme('dep', 'incid_rea').transforme(table)
-print(agregat.lignes)
-
-normalisation=Normalisation(['incid_hosp', 'incid_rea', 'incid_dc', 'incid_rad']).transforme(table)
-print(normalisation.lignes)
-
-
-pip=Pipeline()
-pip.ajoute_etape(MoyenneGlissante('incid_hosp',3))
-print(pip.Liste_Operation)
-data=pip.run(table)
-print(data.lignes)
-
-'''------------------------------------------'''
+'''------------------- Réponses aux questions-----------------------'''
 
 ##Question 1 : — Quel est le nombre total d’hospitalisations dues au Covid-19?
 ##On commence par charger la table avec les données qui nous interesse
@@ -100,6 +33,16 @@ pip2.ajoute_etape(Fenetrage('2021-02-25', '2021-03-03'))
 pip2.ajoute_etape(AgregationSomme('dep', 'incid_hosp'))
 resultat2=pip2.run(table2)
 print(resultat2.lignes)
+
+from cartoplot import Cartoplot
+from chargementdedonneescsv import ChargementDeDonneescsv
+from agregationsomme import AgregationSomme
+agregat=AgregationSomme('dep', 'incid_hosp').transforme(resultat2)
+print(agregat.lignes)
+
+#On crée un fichier excel vide sur notre ordinateur
+#Il a l'emplacement : C:/Users/maroi/Projet_td/Projet/Tableau_question_2.csv
+tableau2=Tableau("C:/Users/maroi/Projet_td/Projet/Tableau_question_2.csv").affiche(resultat2)
 
 
 
@@ -152,7 +95,7 @@ print(resultat4.lignes)
 ##On commence par charger la table avec les données qui nous interesse
 ##Qui est : " donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv "
 ##On utilise la fonction "chercher_vacance" de notre classe outil pour determiner la periode qui nous interesse
-Informations=chercher_vacances("Vacances de la Toussaint", "2020-2021")
+Informations=Outil.chercher_vacances("Vacances de la Toussaint", "2020-2021")
 datefin=Informations['DateFin']
 ##On realise ensuite un fenetrage entre datefin et datefin+7 jours
 table5=ChargementDeDonneescsv("C:/Users/maroi/Projet_td/Projet/donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv").transforme()
@@ -163,11 +106,101 @@ pip5.ajoute_etape(Somme())
 resultat5=pip5.run(table5)
 print(resultat5.lignes)
 
+##Question 6 : — Affichez sous forme de carte le nombre total d'entrée en réanimation par département.
+##On commence par charger la table avec les données qui nous interesse
+##Qui est : " donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv "
+##On realise une Agregation sur les departement en sommant sur incid_rea
+##On affiche la carte
 
-VacancesScolaire['Calendrier']
-Tableau2[]
+agregat=AgregationSomme('dep', 'incid_rea').transforme(table6)
+print(agregat.lignes)
+
+cp = CartoPlot()
+d = {}
+for i in range(1, 96):
+    d[str(i)] = agregat.lignes[i][-1]
+del(d['69'])
+d['69D'] = agregat.lignes[69][-1]
+d['69M'] = agregat.lignes[69][-1]
+d['2A'] = agregat.lignes[28][-1]
+d['2B'] = agregat.lignes[29][-1]
+fig = cp.plot_dep_map(data=d, x_lim=(-6, 10), y_lim=(41, 52))
+#fig.show()
+fig.savefig('nouv_hosp_hebdo.jpg')
 
 
-print(SelectionVariablejson(VacancesScolaires,'annee_scolaire').transforme())
+'''-------- Tests --------- '''
+
+'''
+a=ChargementDeDonneescsv("C:/Users/maroi/Projet_td/Projet/donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv")
+table=ChargementDeDonneescsv.transforme(a)
+table.lignes=table.lignes[:300]
 
 
+a2=ChargementDeDonneescsv("C:/Users/maroi/Projet_td/Projet/donnees-hospitalieres-covid19-2021-03-03-17h03.csv")
+tablea=ChargementDeDonneescsv.transforme(a2)
+tablea.lignes=tablea.lignes[:10]
+
+table2=Fenetrage("2020-03-19","2020-03-20").transforme(table)
+print(table2.lignes)
+print(table2.noms_colonnes)
+
+table3=SelectionVariablecsv('dep').transforme(table)
+print(table3.lignes)
+
+table4=AgregationSpatiale_reg_dep('dep',[1],'C:/Users/maroi/Projet_td/Projet/VacancesScolaires.json').transforme(table)
+print(table4.lignes)
+
+table5=Jointure(table,'dep').transforme(tablea)
+print(table5.noms_colonnes)
+print(table5.lignes)
+
+table6=SelectionVariablecsv('incid_hosp').transforme(table)
+print(table6.lignes)
+
+moyenne=Moyenne().estime(table6)
+print(moyenne.lignes)
+
+variance=Variance().estime(table6)
+print(variance.lignes)
+
+ecart=EcartType().estime(table6)
+print(ecart.lignes)
+
+somme=Somme().estime(table6)
+print(somme.lignes)
+
+mg=MoyenneGlissante('incid_hosp',3).transforme(table)
+print(mg.lignes)
+
+
+a=ChargementDeDonneescsv("C:/Users/maroi/Projet_td/Projet/donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv")
+table=ChargementDeDonneescsv.transforme(a)
+table.lignes=table.lignes[:1000]
+k=Kmeans(3, ['incid_hosp', 'incid_rea', 'incid_dc', 'incid_rad']).estime(table)
+print(k.lignes)
+
+
+a=ChargementDeDonneescsv("C:/Users/maroi/Projet_td/Projet/donnees-hospitalieres-nouveaux-covid19-2021-03-03-17h03.csv")
+table=ChargementDeDonneescsv.transforme(a)
+table.lignes=table.lignes[:5000]
+classi=Kmeans(4, ['incid_hosp', 'incid_rea', 'incid_dc', 'incid_rad']).estime(table)
+print(classi.lignes)
+
+mgg=MoyenneGlissante('incid_hosp',3).process(table)
+print(mgg.lignes)
+
+agregat=AgregationSomme('dep', 'incid_rea').transforme(table)
+print(agregat.lignes)
+
+normalisation=Normalisation(['incid_hosp', 'incid_rea', 'incid_dc', 'incid_rad']).transforme(table)
+print(normalisation.lignes)
+
+
+pip=Pipeline()
+pip.ajoute_etape(MoyenneGlissante('incid_hosp',3))
+print(pip.Liste_Operation)
+data=pip.run(table)
+print(data.lignes)
+
+'''
